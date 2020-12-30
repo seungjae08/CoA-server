@@ -95,7 +95,7 @@ module.exports = async (req, res) => {
         const likeUser = await Like_User.findAll({
             where:{userID:verifyToken.userId}
         })
-        
+        contentDb.reverse();
         const likeArr = likeUser.reduce((acc,ele)=>([...acc,ele.contentID]),[])
         res.status(200).send({
             result:contentDb,
