@@ -19,10 +19,10 @@ module.exports = (req, res) => {
                 , { expiresIn: '1h' }
             )
             res.cookie("accessToken", accessToken,
-            // {
-            //     secure:true,
-            //     sameSite:"none"
-            // }
+            {
+                secure:true,
+                sameSite:"none"
+            }
             );
             res.status(200).json({ accessToken, signin: true })
         }

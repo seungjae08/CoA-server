@@ -15,10 +15,10 @@ module.exports = (req,res)=>{
         const token = req.cookie.split("accessToken=")[1];
         let verifyToken = jwt.verify(token,"TokenSecret")
         res.clearCookie('accessToken',
-        // {
-        //     secure:true,
-        //     sameSite:"none"
-        // }
+        {
+            secure:true,
+            sameSite:"none"
+        }
         ).send(req.cookies);
     }catch(err){
         console.log(err)
