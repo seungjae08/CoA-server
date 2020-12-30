@@ -30,6 +30,7 @@ module.exports = async (req, res) => {
             html = await axios.get(baseURL);
             $ = await cheerio.load(html.data);
             $language =await $('div.el-dropdown').children("span").text();
+            $bodyList = await $('div.content-wrap ul.newscontainer').children('li');
             if($language.indexOf("한국어")!==-1){
                 await $bodyList.each(async function (i, elem) {
                     const titleObj = $(this).find('h3').text();
