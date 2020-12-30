@@ -11,9 +11,6 @@ module.exports = (req,res)=>{
     //(server에서 response) set-Cookie : A:delete; B:4567; 
     //(client의 쿠키가 바뀐다.)\
     try{
-        
-        const token = req.cookie.split("accessToken=")[1];
-        let verifyToken = jwt.verify(token,"TokenSecret")
         res.clearCookie('accessToken',
         {
             secure:true,
