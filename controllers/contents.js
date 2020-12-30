@@ -21,26 +21,35 @@ module.exports = async (req, res) => {
         }
 
         let ulList = [];
-        const html = await axios.get(baseURL);
-        const $ = await cheerio.load(html.data);
-        const $language =await $('div.el-dropdown').children("span").text();
-        if($language ==="한국어"){
-            await $bodyList.each(async function (i, elem) {
-                const titleObj = $(this).find('h3').text();
-                const body = $(this).find('div.h63').text();
-                const titleArr = titleObj.split('\n');
-                const title = titleArr[3];
-                const time = titleArr[1];
-                if (title !== undefined || comment !== "") {
-                    ulList.push({
-                        title: title,
-                        body: body,
-                        time: time
-                    })
-                }
-            })
+        let html = await axios.get(baseURL);
+        let $ = await cheerio.load(html.data);
+        let $language =await $('div.el-dropdown').children("span").text();
+        let $bodyList = await $('div.content-wrap ul.newscontainer').children('li');
+        let langState =true;
+        while(langState){
+            html = await axios.get(baseURL);
+            $ = await cheerio.load(html.data);
+            $language =await $('div.el-dropdown').children("span").text();
+            if($language.indexOf("한국어")!==-1){
+                await $bodyList.each(async function (i, elem) {
+                    const titleObj = $(this).find('h3').text();
+                    const body = $(this).find('div.h63').text();
+                    const titleArr = titleObj.split('\n');
+                    const title = titleArr[3];
+                    const time = titleArr[1];
+                    if (title !== undefined || comment !== "") {
+                        ulList.push({
+                            title: title,
+                            body: body,
+                            time: time
+                        })
+                    }
+                })
+                langState =false;
+            }
         }
-        const $bodyList = await $('div.content-wrap ul.newscontainer').children('li');
+        
+        
         // titleObj ="\n14:02\n\n유니스왑 상승폭/하락폭 TOP3 토큰\n공유하기"
         // title Arr["", "14:02", "", "유니스왑 상승폭/하락폭 TOP3 토큰", "공유하기"]
         // title = titleArr[3] => "유니스왑 상승폭/하락폭 TOP3 토큰"
