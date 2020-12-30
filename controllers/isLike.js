@@ -6,11 +6,10 @@ const jwt = require("jsonwebtoken")
 
 module.exports = async (req,res)=>{
     try{
-        let token = req.cookies;
+        let token = req.cookies.accessToken;
         if(!token){
             res.status(200).send("not authentication")
         }else{
-            token = token.accessToken;
             let verifyToken = jwt.verify(token,"TokenSecret");
             let UserID = verifyToken.userId;
             let { id ,like }= req.body

@@ -9,7 +9,7 @@ let token = "";
 
 module.exports = async (req, res) => {
     try {
-        if (req.cookies) {
+        if (req.cookies.accessToken) {
             let token = req.cookies.accessToken;
             
             verifyToken = jwt.verify(token, "TokenSecret");

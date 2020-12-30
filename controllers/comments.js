@@ -4,7 +4,7 @@ let verifyToken ;
 let UserID;
 module.exports = (req,res)=>{
     try{
-        if(req.cookies){
+        if(req.cookies.accessToken){
             let token = req.cookies.accessToken;
             verifyToken = jwt.verify(token,"TokenSecret");
             UserID = verifyToken.userId;
